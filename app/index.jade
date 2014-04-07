@@ -1,0 +1,59 @@
+doctype html
+html.no-js
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+
+    title fe-base
+
+    | <!--(if target development)><link rel="stylesheet" href="/stylesheets/style.css"><![endif]-->
+    | <!--(if target development)><script type='text/javascript' data-main='/scripts/main' src='/bower_components/requirejs/require.js'></script><![endif]-->
+
+    | <!--(if target production)><link rel="stylesheet" href="/style.css"><![endif]-->
+    | <!--(if target production)><script type="text/javascript" src="/application.js"></script><![endif]-->
+  body
+    nav.top-bar(data-topbar='data-topbar')
+      ul.title-area
+        li.name
+          h1
+            a(href='#') My Site
+        li.toggle-topbar.menu-icon
+          a(href='#') Menu
+
+      section.top-bar-section
+        ul.right
+          li.active
+            a(href='#') Right Button Active
+          li.has-dropdown
+            a(href='#') Right Button Dropdown
+            ul.dropdown
+              li
+                a(href='#') First link in dropdown
+        ul.left
+          li
+            a(href='#') Left Nav Button
+
+    .row
+      .large-12.columns.clearfix
+        #slider
+          img(src='http://placehold.it/1000x400&text=[ img 1 ]')
+        hr
+
+    .row
+      .large-12.columns
+        .panel
+          h4 Get in touch!
+          .row
+            .large-9.columns
+              p We'd love to hear from you, you attractive person you.
+            .large-3.columns
+              a.radius.button.right(href='#') Contact Us
+
+    footer.row
+      .large-12.columns
+        hr
+        .row
+          .large-6.columns
+            p © Copyright no one at all. Go to town.

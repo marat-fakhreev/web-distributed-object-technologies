@@ -1,0 +1,14 @@
+{
+  "name": "fe-boilerplate",
+  "description": "front-end boilerplate",
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "requirejs": "~2.1.11",
+    "marionette": "~1.7.4",
+    "foundation": "~5.2.2",
+    "almond": "~0.2.9"
+  },
+  "resolutions": {
+    "jquery": "~2.0.3"
+  }
+}
