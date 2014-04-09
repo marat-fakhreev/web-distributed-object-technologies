@@ -9,10 +9,12 @@ html.no-js
     title fe-base
 
     | <!--(if target development)><link rel="stylesheet" href="/stylesheets/style.css"><![endif]-->
+    | <!--(if target development)><script type='text/javascript' src='/socket.io/socket.io.js'></script><![endif]-->
     | <!--(if target development)><script type='text/javascript' data-main='/scripts/main' src='/bower_components/requirejs/require.js'></script><![endif]-->
 
     | <!--(if target production)><link rel="stylesheet" href="/style.css"><![endif]-->
     | <!--(if target production)><script type="text/javascript" src="/application.js"></script><![endif]-->
+
   body
     nav.top-bar(data-topbar='data-topbar')
       ul.title-area
@@ -35,21 +37,20 @@ html.no-js
           li
             a(href='#') Left Nav Button
 
-    .row
-      .large-12.columns.clearfix
-        #slider
-          img(src='http://placehold.it/1000x400&text=[ img 1 ]')
+    .row.chat
+      .large-3.columns
+        | sdfsdfsd
+      .large-9.columns.chat-side
+        #status.row.collapse.status
+          | Your status: Offline
         hr
-
-    .row
-      .large-12.columns
-        .panel
-          h4 Get in touch!
-          .row
-            .large-9.columns
-              p We'd love to hear from you, you attractive person you.
-            .large-3.columns
-              a.radius.button.right(href='#') Contact Us
+        .row.collapse.chat-window
+        hr
+        .row.collapse
+          .small-10.columns
+            input(id='msg_field' type='text', placeholder='Message')
+          .small-2.columns
+            a#send.button.postfix Go
 
     footer.row
       .large-12.columns

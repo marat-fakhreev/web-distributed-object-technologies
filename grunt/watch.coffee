@@ -3,7 +3,7 @@ module.exports = (grunt) ->
     file = {}
 
     if /(.coffee)/.test filepath
-      dest = filepath.replace("#{grunt.appDir}/scripts", "#{grunt.publicDir}/scripts").replace('.coffee', '.js')
+      dest = filepath.replace("#{grunt.appDir}", "#{grunt.publicDir}").replace('.coffee', '.js')
       file[dest] = filepath
       grunt.config 'coffeelint.watch.files', file
       grunt.config 'coffee.watch.files', file

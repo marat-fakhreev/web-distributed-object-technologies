@@ -1,5 +1,6 @@
 requirejs.config
   baseUrl: '/scripts'
+  nodeRequire: require
   paths:
     'underscore': '../bower_components/underscore/underscore'
     'jquery': '../bower_components/jquery/jquery'

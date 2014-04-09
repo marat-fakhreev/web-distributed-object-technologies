@@ -6,6 +6,7 @@
     "requirejs": "~2.1.11",
     "marionette": "~1.7.4",
     "foundation": "~5.2.2",
+    "socket.io": "~1.0.0",
     "almond": "~0.2.9"
   },
   "resolutions": {

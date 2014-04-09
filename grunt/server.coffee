@@ -2,9 +2,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'server', (target) ->
     if target is 'development'
       grunt.task.run [
-        'connect:development'
-        'easymock'
-        'configureProxies:server'
+        'express:development'
         'watch:development'
       ]
     else if target is 'production'

@@ -1,6 +1,7 @@
 define [
   'marionette'
-], (Marionette) ->
+  'chat'
+], (Marionette, Chat) ->
 
   App = new Marionette.Application()
 
@@ -19,6 +20,8 @@ define [
       App.navigate(href, trigger: true)
 
     $(document).foundation()
+
+    chat = new Chat()
 
     console.log 'app started'
 

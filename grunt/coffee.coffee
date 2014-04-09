@@ -4,9 +4,9 @@ module.exports = (grunt) ->
   development:
     files: [
       expand: true
-      cwd: '<%= grunt.appDir %>/scripts'
+      cwd: '<%= grunt.appDir %>'
       src: ['*.coffee', '**/*.coffee']
-      dest: '<%= grunt.publicDir %>/scripts'
+      dest: '<%= grunt.publicDir %>'
       ext: '.js'
     ]
   watch:
