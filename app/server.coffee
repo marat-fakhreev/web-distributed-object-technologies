@@ -11,11 +11,9 @@ requirejs.config
 
 requirejs [
   'chat'
-], (chat) ->
+], (Chat) ->
 
-  chat(app, server)
-
-# delegates use() function
+  new Chat(app, server)
 
 exports = module.exports = server
 
