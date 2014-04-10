@@ -7,13 +7,24 @@ html
   margin: 20px auto
   border: 1px solid #cfcfcf
 
-  .columns
+  > .columns
     height: 500px
+    padding: 0px
+
+    &:first-child
+      border-right: 1px solid #cfcfcf
 
   .chat-window
-    height: 350px
-    overflow: auto
-
-  .chat-side
     box-sizing: border-box
-    border-left: 1px solid #cfcfcf
+    height: 305px
+    overflow: auto
+    font-size: 14px
+
+    .name
+      font-style: italic
+      color: #666
+      margin: 0 12px 0 0
+
+  .chat-column
+    padding: 20px
+    box-sizing: border-box

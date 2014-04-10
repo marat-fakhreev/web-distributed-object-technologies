@@ -17,10 +17,12 @@ module.exports = (grunt) ->
       grunt.config 'jade.watch.files', file
 
   options:
-    livereload: true
     spawn: false
+    livereload: true
   development:
-    files: ['<%= grunt.appDir %>/**/*']
+    files: [
+      '<%= grunt.appDir %>/**/*'
+    ]
     tasks: [
       'jade:html'
       'targethtml:development'

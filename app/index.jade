@@ -39,18 +39,21 @@ html.no-js
 
     .row.chat
       .large-3.columns
-        | sdfsdfsd
-      .large-9.columns.chat-side
-        #status.row.collapse.status
-          | Your status: Offline
-        hr
-        .row.collapse.chat-window
-        hr
-        .row.collapse
-          .small-10.columns
-            input(id='msg_field' type='text', placeholder='Message')
-          .small-2.columns
-            a#send.button.postfix Go
+        .chat-column
+          h4 Users:
+          ul.chat-list
+      .large-9.columns
+        .chat-column
+          h4#status.row.collapse.status
+            | Your status: Offline
+          hr
+          ul.row.collapse.chat-window
+          hr
+          .row.collapse
+            .small-10.columns
+              input(id='msg_field' type='text', placeholder='Message')
+            .small-2.columns
+              a#send.button.postfix Send
 
     footer.row
       .large-12.columns
