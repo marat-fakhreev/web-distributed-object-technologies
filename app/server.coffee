@@ -1,18 +1,23 @@
 requirejs = require('requirejs')
+express = require('express')
+http = require('http')
+
+app = express()
+server = http.createServer(app)
 
 requirejs.config
-  baseUrl: 'scripts/server'
+  baseUrl: 'public/scripts/server'
   nodeRequire: require
 
 requirejs [
   'chat'
 ], (chat) ->
 
-  exports = module.exports = chat.server
+  chat(app, server)
 
-  # chat.app.listen(8000)
+# delegates use() function
 
-  # # delegates use() function
-  # exports.use = ->
-  #   app = chat.app
-  #   app.use.apply(app, arguments)
+exports = module.exports = server
+
+exports.use = ->
+  app.use.apply(app, arguments)

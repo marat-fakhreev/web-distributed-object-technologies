@@ -8,4 +8,4 @@ module.exports = (grunt) ->
       server: '<%= grunt.publicDir %>/server.js'
       livereload: '<%= grunt.ports.livereload %>'
       # serverreload: true
-      # showStack: true
+      showStack: true
