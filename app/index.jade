@@ -26,10 +26,45 @@ html.no-js
 
       section.top-bar-section
         ul.left
-          li.active
-            a(href='#') Chat
+          li#chat-item
+            a Chat
+          li#users-item
+            a List
 
-    .row.chat
+    form(id='form', class='row')
+      .row
+        .large-4.columns
+          label
+            | Nickname
+            input(id="nickname" type='text')
+        .large-4.columns
+          label
+            | Name
+            input(id="name" type='text')
+        .large-4.columns
+          .row.collapse
+            label Site
+            .small-9.columns
+              input(id="site" type='text')
+            .small-3.columns
+              span.postfix .com
+      .row
+        .large-6.columns
+          label Choose color
+          input#black_color(type='radio', name="color" value='black' class='color-item' checked='checked')
+          label(for='black_color') Black
+          input#red_color(type='radio', name="color" value='red' class='color-item')
+          label(for='red_color') Red
+          input#blue_color(type='radio', name="color" value='blue' class='color-item')
+          label(for='blue_color') Blue
+          input#green_color(type='radio', name="color" value='green' class='color-item')
+          label(for='green_color') Green
+          input#purple_color(type='radio', name="color" value='purple' class='color-item')
+          label(for='purple_color') Purple
+      .row
+        input(type='submit', value='SUBMIT' class='button large-12')
+
+    #chat.row.chat
       .large-3.columns
         .chat-column
           h4 Users:
@@ -46,6 +81,16 @@ html.no-js
               input(id='msg_field' type='text', placeholder='Message')
             .small-2.columns
               a#send.button.postfix Send
+
+    #users.large-9.row
+      table
+        thead
+          tr
+            th(width='200') Name
+            th Nickname
+            th(width='150') Site
+            th(width='150') Color
+        tbody#list
 
     footer.row
       .large-12.columns

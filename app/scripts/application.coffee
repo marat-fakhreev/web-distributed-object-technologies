@@ -1,13 +1,18 @@
 define [
   'marionette'
-  'chat'
-], (Marionette, Chat) ->
+  'client/router'
+  'client/controller'
+], (Marionette, Router, Controller) ->
 
   App = new Marionette.Application()
 
   App.navigate = (route, options) ->
     options or= {}
     Backbone.history.navigate(route, options)
+
+  App.addInitializer ->
+    controller = new Controller
+    @router = new Router(controller: controller)
 
   App.on 'initialize:after', ->
     Backbone.history.start
@@ -20,8 +25,6 @@ define [
       App.navigate(href, trigger: true)
 
     $(document).foundation()
-
-    chat = new Chat()
 
     console.log 'app started'
 

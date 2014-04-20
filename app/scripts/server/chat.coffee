@@ -17,40 +17,50 @@ define [
     socketEvents: ->
       @io.sockets.on 'connection', (client) =>
         @client = client
+        color = 'black'
 
-        client.on 'join', (name) =>
+        client.on 'join', (object) =>
+          o = JSON.parse(object)
+          name = o.nickname
+          color = o.color
+
+          client.set 'nickname', name, => @onUserConnect(object)
           console.log "#{name} connected the chat"
-          user = name
-          client.set 'nickname', name, => @onUserConnect(user)
 
         client.on 'disconnect', (name) =>
           client.get 'nickname', (error, name) => @onUserDisconnect(error, name)
 
         client.on 'messages', (message) =>
-          client.get 'nickname', (error, name) => @onSendMessage(error, name, message)
+          client.get 'nickname', (error, name) => @onSendMessage(error, name, message, color)
 
-    onUserConnect: (userName) ->
-      @client.emit('user connected', userName)
-      @client.emit('user add_to_chat_list', userName)
-      @client.broadcast.emit('user connected_for_all', userName)
-      @client.broadcast.emit('user add_to_chat_list', userName)
+        client.on 'list', => @onGetUsersList()
 
+    onUserConnect: (object) ->
+      user = JSON.parse(object)
+      @client.emit('user connected', user.nickname)
+      @client.broadcast.emit('user connected_for_all', user.nickname)
+      @client.broadcast.emit('user add_to_chat_list', user.nickname, user.color)
+
+      #save user to database
+      @redisClient.sadd('users', object)
       @redisClient.lrange 'messages', 0, -1, (error, messages) => @onRedisAddMessage(error, messages)
       @redisClient.smembers 'users', (error, users) => @onRedisAddUsersToChatList(error, users)
-      @redisClient.sadd('users', userName)
 
     onUserDisconnect: (error, name, message) ->
       @client.broadcast.emit('user remove_from_chat_list', name)
       @redisClient.srem('users', name)
 
-    onSendMessage: (error, name) ->
+    onSendMessage: (error, name, message, color) ->
       data =
         name: name
+        color: color
         message: message
+
+      console.log data
 
       @client.emit('chat', data)
       @client.broadcast.emit('chat', data)
-      @_redisStoreMessage(name, message)
+      @_redisStoreMessage(name, color, message)
 
     onRedisAddMessage: (error, messages) ->
       messages = messages.reverse()
@@ -60,11 +70,23 @@ define [
         @client.emit('chat', data)
 
     onRedisAddUsersToChatList: (error, users) ->
-      _.each users, (name, index) =>
-        @client.emit('user add_to_chat_list', name)
+      _.each users, (user, index) =>
+        user = JSON.parse(user)
+        console.log user
+        @client.emit('user add_to_chat_list', user.nickname, user.color)
 
-    _redisStoreMessage: (name, message) ->
-      message = JSON.stringify(name: name, message: message)
+    onGetUsersList: ->
+      @redisClient.smembers 'users', (error, users) =>
+        _.each users, (user, index) =>
+          @client.emit('user add_to_list', user)
+
+    _redisStoreMessage: (name, color, message) ->
+      message =
+        name: name
+        color: color
+        message: message
+
+      message = JSON.stringify(message)
 
       @redisClient.lpush 'messages', message, (error, response) =>
         @redisClient.ltrim('messages', 0, 9)

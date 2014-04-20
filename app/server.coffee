@@ -2,7 +2,7 @@ requirejs = require('requirejs')
 express = require('express')
 http = require('http')
 
-app = express()
+app = express(app)
 server = http.createServer(app)
 
 requirejs.config
