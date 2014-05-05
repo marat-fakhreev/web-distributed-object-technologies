@@ -16,12 +16,11 @@ define [
     getUsersList: (variable, callback) ->
       @redisClient.smembers 'users', (error, users) ->
         array = []
-        array.push('')
-        array.push(variable)
-        array.push('')
+        array.push(['', '', variable, ''])
 
         _.each users, (user, index) ->
           array.push(user)
 
-        array.push('')
-        callback(array.join("\n"))
+        list = _.flatten(array)
+
+        callback(list.join("\n"))
