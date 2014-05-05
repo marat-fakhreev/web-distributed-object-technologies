@@ -1,19 +1,23 @@
 requirejs = require('requirejs')
 express = require('express')
 http = require('http')
+redis = require('redis')
 
 app = express(app)
 server = http.createServer(app)
 
 requirejs.config
-  baseUrl: 'public/scripts/server'
+  baseUrl: 'public/scripts'
   nodeRequire: require
 
 requirejs [
-  'chat'
-], (Chat) ->
+  'rpc-server/rpc_server'
+  'server/chat'
+], (RpcServer, Chat) ->
+  redisClient = redis.createClient()
 
-  new Chat(app, server)
+  new RpcServer(redisClient)
+  new Chat(app, server, redisClient)
 
 exports = module.exports = server
 

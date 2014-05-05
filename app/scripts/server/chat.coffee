@@ -1,18 +1,19 @@
 define [
-  'redis'
   'socket.io'
+  'dnode'
   'underscore'
-], (Redis, SocketIo, _) ->
+], (SocketIo, Rpc, _) ->
 
   class Chat
-    constructor: (@app, @server) ->
-      @redisClient = Redis.createClient()
+    constructor: (@app, @server, @redisClient) ->
       @io = SocketIo.listen(@server, log: false)
 
       @app.get '/', (req, res) ->
         res.sendfile __dirname + '/index.html'
 
       @socketEvents()
+
+      @rpcInit()
 
     socketEvents: ->
       @io.sockets.on 'connection', (client) =>
@@ -35,6 +36,15 @@ define [
 
         client.on 'list', => @onGetUsersList()
 
+    rpcInit: ->
+      rpc = Rpc.connect(5004)
+      text = 'Users at the chat:'
+
+      rpc.on 'remote', (remote) ->
+        remote.showUsers text, (response) ->
+          console.log response
+          rpc.end()
+
     onUserConnect: (object) ->
       user = JSON.parse(object)
       @client.emit('user connected', user.nickname)
@@ -45,6 +55,9 @@ define [
       @redisClient.sadd('users', object)
       @redisClient.lrange 'messages', 0, -1, (error, messages) => @onRedisAddMessage(error, messages)
       @redisClient.smembers 'users', (error, users) => @onRedisAddUsersToChatList(error, users)
+
+      #get all user with remote procudure calling
+      @rpcInit()
 
     onUserDisconnect: (error, name, message) ->
       @client.broadcast.emit('user remove_from_chat_list', name)
@@ -72,7 +85,6 @@ define [
     onRedisAddUsersToChatList: (error, users) ->
       _.each users, (user, index) =>
         user = JSON.parse(user)
-        console.log user
         @client.emit('user add_to_chat_list', user.nickname, user.color)
 
     onGetUsersList: ->
