@@ -8,8 +8,8 @@ define [
   class RpcServer
     constructor: (@redisClient) ->
       server = Rpc
-        showUsers: (variable, callback) =>
-          @getUsersList(variable, callback)
+        showUsers: (variable, callback) => @getUsersList(variable, callback)
+        showCount: (callback) => @getUsersCount(callback)
 
       server.listen(5004)
 
@@ -24,3 +24,7 @@ define [
         list = _.flatten(array)
 
         callback(list.join("\n"))
+
+    getUsersCount: (callback) ->
+      @redisClient.smembers 'users', (error, users) ->
+        callback(users.length)

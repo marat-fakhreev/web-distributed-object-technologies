@@ -41,8 +41,12 @@ define [
       text = 'Users at the chat:'
 
       rpc.on 'remote', (remote) ->
-        remote.showUsers text, (response) ->
-          console.log response
+        remote.showUsers text, (userList) ->
+          console.log userList
+          rpc.end()
+
+        remote.showCount (userCount) ->
+          console.log "USERS COUNT IS: #{userCount}"
           rpc.end()
 
     onUserConnect: (object) ->
